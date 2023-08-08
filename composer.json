@@ -1,24 +1,26 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "snellingio/folio-markdown",
+    "description": "Add markdown routing to Folio",
     "keywords": [
-        ":vendor_name",
+        "snellingio",
         "laravel",
-        ":package_slug"
+        "folio-markdown"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/snellingio/folio-markdown",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Sam Snelling",
+            "email": "sam@snelling.io",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.1",
+        "illuminate/contracts": "^10.0",
+        "laravel/folio": "^1.0@beta",
         "spatie/laravel-package-tools": "^1.14.0",
-        "illuminate/contracts": "^10.0"
+        "spatie/yaml-front-matter": "^2.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
@@ -35,13 +37,12 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Snelling\\FolioMarkdown\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/"
+            "Snelling\\FolioMarkdown\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -61,10 +62,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Snelling\\FolioMarkdown\\FolioMarkdownServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "FolioMarkdown": "Snelling\\FolioMarkdown\\Facades\\FolioMarkdown"
             }
         }
     },

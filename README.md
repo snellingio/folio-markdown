@@ -5,13 +5,10 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/snellingio/folio-markdown/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/snellingio/folio-markdown/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/snellingio/folio-markdown.svg?style=flat-square)](https://packagist.org/packages/snellingio/folio-markdown)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
 <a name="introduction"></a>
-
 ## Introduction
 
-Folio Markdown is a powerful extension to the Laravel Folio page based router.
+Folio Markdown is a powerful extension to the Laravel Folio page-based router.
 
 With Laravel Folio, generating a route becomes as effortless as creating a Blade template within your
 application's `resources/views/pages` directory.
@@ -68,6 +65,7 @@ class FolioServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Place your Folio calls before the register method
+        
         
         // Register Folio Markdown at the bottom of the boot method
         FolioMarkdown::register();

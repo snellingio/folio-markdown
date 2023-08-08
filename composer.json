@@ -12,13 +12,20 @@
         {
             "name": "Sam Snelling",
             "email": "sam@snelling.io",
-            "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.1",
-        "illuminate/contracts": "^10.0",
+        "illuminate/console": "^10.15|^11.0",
+        "illuminate/container": "^10.15|^11.0",
+        "illuminate/contracts": "^10.15|^11.0",
+        "illuminate/filesystem": "^10.15|^11.0",
+        "illuminate/pipeline": "^10.15|^11.0",
+        "illuminate/routing": "^10.15|^11.0",
+        "illuminate/support": "^10.15|^11.0",
+        "illuminate/view": "^10.15|^11.0",
         "laravel/folio": "^1.0@beta",
+        "spatie/invade": "^2.0",
         "spatie/laravel-package-tools": "^1.14.0",
         "spatie/yaml-front-matter": "^2.0"
     },
@@ -42,7 +49,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Snelling\\FolioMarkdown\\Tests\\": "tests/"
+            "Tests\\": "tests/"
         }
     },
     "scripts": {

@@ -11,17 +11,18 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\HtmlString;
 use Laravel\Folio\Events;
-use Laravel\Folio\Folio;
+use Laravel\Folio\FolioManager;
 use Laravel\Folio\MountPath;
 use Laravel\Folio\Pipeline\MatchedView;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
+use Str;
 
 class RequestHandler
 {
     /**
      * Create a new request handler instance.
      *
-     * @param  array<int, \Laravel\Folio\MountPath>  $mountPaths
+     * @param  array<int, MountPath>  $mountPaths
      */
     public function __construct(
         protected FolioMarkdown $manager,
@@ -46,7 +47,9 @@ class RequestHandler
             }
         }
 
-        abort_unless($matchedView ?? null, 404);
+        if (! $matchedView) {
+            return invade(app(FolioManager::class))->handler()($request);
+        }
 
         app(Dispatcher::class)->dispatch(new Events\ViewMatched($matchedView, $mountPath));
 
@@ -64,7 +67,13 @@ class RequestHandler
                     ? ($this->renderUsing)($request, $matchedView)
                     : $this->toResponse($matchedView);
 
-                Folio::terminate();
+                /*
+                $this->manager->terminateUsing(
+                    fn (Application $app) => $middleware->filter(fn ($middleware) => is_string($middleware) && class_exists($middleware) && method_exists($middleware, 'terminate'))
+                        ->map(fn (string $middleware) => $app->make($middleware))
+                        ->each(fn (object $middleware) => $app->call([$middleware, 'terminate'], ['request' => $request, 'response' => $response]))
+                );
+                */
 
                 return $response;
             });
@@ -94,7 +103,7 @@ class RequestHandler
     {
         $parser = YamlFrontMatter::parse(file_get_contents($matchedView->path));
         $data = $parser->matter() + $matchedView->data;
-        $body = new HtmlString(\Str::markdown($parser->body()));
+        $body = new HtmlString(Str::markdown($parser->body()));
 
         if (isset($data['view'])) {
             $data['slot'] = $body;

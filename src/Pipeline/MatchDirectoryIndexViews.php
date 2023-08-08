@@ -14,9 +14,9 @@ class MatchDirectoryIndexViews
     public function __invoke(State $state, Closure $next): mixed
     {
         return $state->onLastUriSegment() &&
-            $state->currentUriSegmentIsDirectory() &&
-            file_exists($path = $state->currentUriSegmentDirectory().'/index.md')
-                ? new MatchedView($path, $state->data)
-                : $next($state);
+        $state->currentUriSegmentIsDirectory() &&
+        file_exists($path = $state->currentUriSegmentDirectory().'/index.md')
+            ? new MatchedView($path, $state->data)
+            : $next($state);
     }
 }

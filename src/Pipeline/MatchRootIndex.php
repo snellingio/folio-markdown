@@ -16,8 +16,8 @@ class MatchRootIndex
     {
         if (trim($state->uri) === '/') {
             return file_exists($path = $state->mountPath.'/index.md')
-                    ? new MatchedView($path, $state->data)
-                    : new StopIterating;
+                ? new MatchedView($path, $state->data)
+                : new StopIterating;
         }
 
         return $next($state);

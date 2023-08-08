@@ -1,5 +1,13 @@
 <?php
 
-use Snelling\FolioMarkdown\Tests\TestCase;
+uses(Tests\TestCase::class)->in('Feature', 'Unit');
 
-uses(TestCase::class)->in(__DIR__);
+expect()->extend('toOutput', function (string $output) {
+    $value = $this->value;
+
+    if (windows_os()) {
+        $value = str_replace("\r\n", "\n", $value);
+    }
+
+    return $this->and($value)->toBe($output);
+});

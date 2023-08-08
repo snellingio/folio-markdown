@@ -14,8 +14,8 @@ class MatchLiteralViews
     public function __invoke(State $state, Closure $next): mixed
     {
         return $state->onLastUriSegment() &&
-            file_exists($path = $state->currentDirectory().'/'.$state->currentUriSegment().'.md')
-                ? new MatchedView($path, $state->data)
-                : $next($state);
+        file_exists($path = $state->currentDirectory().'/'.$state->currentUriSegment().'.md')
+            ? new MatchedView($path, $state->data)
+            : $next($state);
     }
 }

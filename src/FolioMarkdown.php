@@ -19,10 +19,15 @@ class FolioMarkdown
 
     }
 
-    public function scopeFromFolio()
+    public function register()
     {
         $this->mountPaths = Folio::mountPaths();
-        Route::fallback($this->handler());
+
+        $placeholder = 'markdownFallbackPlaceholder';
+
+        Route::addRoute(
+            'GET', "{{$placeholder}}", $this->handler()
+        )->where($placeholder, '.*');
     }
 
     protected function handler(): Closure

@@ -1,10 +1,14 @@
 <?php
 
-namespace Snelling\FolioMarkdown\Tests;
+namespace Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\View;
+use Laravel\Folio\FolioServiceProvider;
+use Laravel\Folio\MountPath;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Snelling\FolioMarkdown\FolioMarkdownServiceProvider;
+use Snelling\FolioMarkdown\Router;
 
 class TestCase extends Orchestra
 {
@@ -12,25 +16,56 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Snelling\\FolioMarkdown\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
+        View::addLocation(__DIR__.'/Feature/resources/views');
     }
 
     protected function getPackageProviders($app)
     {
         return [
             FolioMarkdownServiceProvider::class,
+            FolioServiceProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    /**
+     * Create the given views.
+     *
+     * @param  array<string, array<string, string>|string>  $views
+     */
+    protected function views(array $views, $directory = null): void
     {
-        config()->set('database.default', 'testing');
+        $directory ??= __DIR__.'/tmp/views';
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_folio-markdown_table.php.stub';
-        $migration->up();
-        */
+        foreach ($views as $key => $value) {
+            if (is_array($value)) {
+                (new Filesystem)->ensureDirectoryExists(
+                    $directory.$key,
+                );
+
+                $this->views($value, $directory.$key);
+            } else {
+                touch($directory.$value);
+            }
+        }
+    }
+
+    /**
+     * Create a new router instance.
+     */
+    protected function router(): Router
+    {
+        return new Router(
+            new MountPath(__DIR__.'/tmp/views', '/', [], null),
+        );
+    }
+
+    /**
+     * Create a new router instance.
+     */
+    protected function folio(): \Laravel\Folio\Router
+    {
+        return new \Laravel\Folio\Router(
+            new MountPath(__DIR__.'/tmp/views', '/', [], null),
+        );
     }
 }

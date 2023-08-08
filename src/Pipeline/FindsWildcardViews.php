@@ -8,22 +8,6 @@ use Illuminate\Support\Str;
 trait FindsWildcardViews
 {
     /**
-     * Attempt to find a wildcard multi-segment view at the given directory.
-     */
-    protected function findWildcardMultiSegmentView(string $directory): ?string
-    {
-        return $this->findViewWith($directory, '[...', ']');
-    }
-
-    /**
-     * Attempt to find a wildcard view at the given directory.
-     */
-    protected function findWildcardView(string $directory): ?string
-    {
-        return $this->findViewWith($directory, '[', ']');
-    }
-
-    /**
      * Attempt to find a wildcard view at the given directory with the given beginning and ending strings.
      */
     protected function findViewWith(string $directory, $startsWith, $endsWith): ?string
@@ -40,7 +24,23 @@ trait FindsWildcardViews
             $filename = $filename->before('.md');
 
             return $filename->startsWith($startsWith) &&
-                   $filename->endsWith($endsWith);
+                $filename->endsWith($endsWith);
         })?->getFilename();
+    }
+
+    /**
+     * Attempt to find a wildcard multi-segment view at the given directory.
+     */
+    protected function findWildcardMultiSegmentView(string $directory): ?string
+    {
+        return $this->findViewWith($directory, '[...', ']');
+    }
+
+    /**
+     * Attempt to find a wildcard view at the given directory.
+     */
+    protected function findWildcardView(string $directory): ?string
+    {
+        return $this->findViewWith($directory, '[', ']');
     }
 }

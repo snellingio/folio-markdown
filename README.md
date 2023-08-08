@@ -51,9 +51,7 @@ php artisan folio:install
 
 After installing Folio, you may install the Folio Markdown package using Composer:
 
-```bash
-composer require snellingio/folio-markdown
-```
+@TODO: publish pacakage to composer.
 
 Finally, within your `App\Providers\FolioServiceProvider` file,
 call the `register` method using the FolioMarkdown Facade:

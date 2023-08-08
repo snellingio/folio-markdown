@@ -1,17 +1,17 @@
 {
     "name": "snellingio/folio-markdown",
-    "description": "Add markdown routing to Folio",
+    "description": "Add markdown support to Laravel Folio routing",
     "keywords": [
-        "snellingio",
-        "laravel",
-        "folio-markdown"
+        "folio-markdown",
+        "folio",
+        "markdown"
     ],
     "homepage": "https://github.com/snellingio/folio-markdown",
     "license": "MIT",
     "authors": [
         {
             "name": "Sam Snelling",
-            "email": "sam@snelling.io",
+            "email": "sam@snelling.io"
         }
     ],
     "require": {

@@ -7,53 +7,122 @@
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
-## Support us
+<a name="introduction"></a>
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/folio-markdown.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/folio-markdown)
+## Introduction
 
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
+Folio Markdown is a powerful extension to the Laravel Folio page based router.
 
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+With Laravel Folio, generating a route becomes as effortless as creating a Blade template within your
+application's `resources/views/pages` directory.
+With Folio Markdown, you can create a route by simply creating a Markdown file within the same directory.
+
+For example, to create a page that is accessible at the `/greeting` URL, just create a `greeting.md` file in your
+application's `resources/views/pages` directory:
+
+```md
+---
+view: layouts.app
+title: Greetings From Space!
+---
+
+# Greetings earthlings!
+
+...
+```
+
+All the YAML front matter will be passed to the view template as variables, and the Markdown content will be passed to
+the view template as a `$slot` variable.
 
 ## Installation
 
-You can install the package via composer:
+You will first need to install Laravel Folio into your Laravel application using the Composer package manager:
+
+```bash
+composer require laravel/folio:^1.0@beta
+```
+
+After installing Folio, you may execute the `folio:install` Artisan command, which will install Folio's service provider
+into your application. This service provider registers the directory where Folio will search for routes / pages:
+
+```bash
+php artisan folio:install
+```
+
+After installing Folio, you may install the Folio Markdown package using Composer:
 
 ```bash
 composer require snellingio/folio-markdown
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="folio-markdown-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="folio-markdown-config"
-```
-
-This is the contents of the published config file:
+Finally, within your `App\Providers\FolioServiceProvider` file,
+call the `register` method using the FolioMarkdown Facade:
 
 ```php
-return [
-];
+use Snelling\FolioMarkdown\Facades\FolioMarkdown;
+
+class FolioServiceProvider extends ServiceProvider
+{
+
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
+    {
+        // Place your Folio calls before the register method
+        
+        // Register Folio Markdown at the bottom of the boot method
+        FolioMarkdown::register();
+    }
+}
 ```
 
-Optionally, you can publish the views using
+<a name="page-paths-uris"></a>
+
+### Page Paths / URIs
+
+Folio Markdown uses the same paths and URIs as Folio, and applies the same rules as Folio does.
+
+// @TODO: write more docs explaining middleware, paths, domains, etc all apply the same.
+
+<a name="nested-routes"></a>
+
+### Nested Routes
 
 ```bash
-php artisan vendor:publish --tag="folio-markdown-views"
+# pages/user/profile.md → /user/profile
 ```
 
-## Usage
+<a name="index-routes"></a>
 
-```php
-$folioMarkdown = new Snelling\FolioMarkdown();
-echo $folioMarkdown->echoPhrase('Hello, Snelling!');
+### Index Routes
+
+```bash
+# pages/users/index.md → /users
+```
+
+<a name="route-parameters"></a>
+
+## Route Parameters
+
+```bash 
+# pages/users/[id].md → /user/1
+```
+
+Captured segments cannot be accessed within the markdown portion, but will be passed to the view template:
+
+```md
+---
+view: layouts.app
+---
+
+# User {{ $id }} <-- This does not work
+```
+
+```html
+<!-- layouts.app -->
+<h1>User {{ $id }}</h1> <-- This works
+{{ $slot }}
 ```
 
 ## Testing

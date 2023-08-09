@@ -83,7 +83,7 @@ class FolioServiceProvider extends ServiceProvider
 
 With these steps completed, you can now create routes using Markdown files in your Laravel application.
 
-## Additional Features
+## Quick Highlights
 
 Folio Markdown supports a variety of features, including:
 
@@ -163,7 +163,7 @@ withTrashed: true
 # Hello Trashed!
 ```
 
-## Applying Middleware
+### Applying Middleware
 
 If you want to use middleware for a specific page, include the `middleware` key in the page's front matter:
 
@@ -192,6 +192,8 @@ title: Hello World!
 
 This will be passed as the `$title` variable to the view template. This applies to all front matter keys.
 
+## The Same Folio You Know and Love
+
 ### Creating Subpages
 
 To create a subpage in Folio, you need to make a new directory within an existing one. For example, if you want to
@@ -213,7 +215,7 @@ then be directed to that page:
 # pages/users/index.md → /users
 ```
 
-## Using URL Segments in Your Page
+### Using URL Segments in Your Page
 
 There might be times when you need to use parts of the incoming request's URL in your page. For example, you might need
 to access the "ID" of a user whose profile is being displayed. To do this, you can include a segment of the page's
@@ -250,7 +252,7 @@ When capturing multiple segments, the captured segments will be injected into th
 </ul>
 ```
 
-## Linking URL Segments to Models
+### Linking URL Segments to Models
 
 If a wildcard segment of your page template's filename matches one of your application's Eloquent models, Folio will
 automatically link it to Laravel's route model binding capabilities and try to inject the resolved model instance into
@@ -286,7 +288,7 @@ specify the full model class name in your template's filename:
 # pages/users/[.App.Models.User].blade.md → /users/1
 ```
 
-## Writing PHP Code in Your File
+### Writing PHP Code in Your File
 
 If you need to write PHP code within your file, you must end it in a `.blade.md`.
 

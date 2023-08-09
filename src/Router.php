@@ -14,24 +14,28 @@ use Laravel\Folio\Pipeline\MatchWildcardDirectories;
 use Laravel\Folio\Pipeline\SetMountPathOnMatchedView;
 use Laravel\Folio\Pipeline\State;
 use Laravel\Folio\Pipeline\StopIterating;
-use Laravel\Folio\Pipeline\TransformModelBindings;
 use Snelling\FolioMarkdown\Pipeline\MatchDirectoryIndexViews;
 use Snelling\FolioMarkdown\Pipeline\MatchLiteralViews;
 use Snelling\FolioMarkdown\Pipeline\MatchRootIndex;
 use Snelling\FolioMarkdown\Pipeline\MatchWildcardViews;
 use Snelling\FolioMarkdown\Pipeline\MatchWildcardViewsThatCaptureMultipleSegments;
+use Snelling\FolioMarkdown\Pipeline\TransformModelBindings;
 
 class Router
 {
     /**
      * Create a new router instance.
+     *
+     * @param  string[]  $extensions
      */
-    public function __construct(protected MountPath $mountPath)
-    {
+    public function __construct(
+        protected MountPath $mountPath,
+        protected array $extensions = ['.blade.md', '.md']
+    ) {
     }
 
     /**
-     * Match the given URI to a view via page based routing.
+     * Match the given URI to a view via page-based routing.
      */
     public function match(Request $request, string $uri): ?MatchedView
     {
@@ -45,7 +49,7 @@ class Router
     }
 
     /**
-     * Resolve the given URI via page based routing at the given mount path.
+     * Resolve the given URI via page-based routing at the given mount path.
      */
     protected function matchAtPath(Request $request, string $uri): ?MatchedView
     {
@@ -61,15 +65,15 @@ class Router
                 ->through([
                     new EnsureMatchesDomain($request, $this->mountPath),
                     new EnsureNoDirectoryTraversal,
-                    new TransformModelBindings($request),
+                    new TransformModelBindings($request, $this->extensions),
                     new SetMountPathOnMatchedView,
-                    new MatchRootIndex,
-                    new MatchDirectoryIndexViews,
-                    new MatchWildcardViewsThatCaptureMultipleSegments,
+                    new MatchRootIndex($this->extensions),
+                    new MatchDirectoryIndexViews($this->extensions),
+                    new MatchWildcardViewsThatCaptureMultipleSegments($this->extensions),
                     new MatchLiteralDirectories,
                     new MatchWildcardDirectories,
-                    new MatchLiteralViews,
-                    new MatchWildcardViews,
+                    new MatchLiteralViews($this->extensions),
+                    new MatchWildcardViews($this->extensions),
                 ])->then(fn () => new StopIterating);
 
             if ($value instanceof MatchedView) {

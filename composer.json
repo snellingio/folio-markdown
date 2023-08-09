@@ -26,6 +26,7 @@
         "illuminate/view": "^10.15|^11.0",
         "laravel/folio": "^1.0@beta",
         "spatie/invade": "^2.0",
+        "spatie/laravel-markdown": "^2.3",
         "spatie/laravel-package-tools": "^1.14.0",
         "spatie/yaml-front-matter": "^2.0"
     },

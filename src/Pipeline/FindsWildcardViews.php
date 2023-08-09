@@ -16,12 +16,20 @@ trait FindsWildcardViews
 
         return collect($files)->first(function ($file) use ($startsWith, $endsWith) {
             $filename = Str::of($file->getFilename());
+            $fileExtension = false;
 
-            if (! $filename->endsWith('.md')) {
+            foreach ($this->extensions as $extension) {
+                if ($filename->endsWith($extension)) {
+                    $fileExtension = $extension;
+                    break;
+                }
+            }
+
+            if (! $fileExtension) {
                 return false;
             }
 
-            $filename = $filename->before('.md');
+            $filename = $filename->before($fileExtension);
 
             return $filename->startsWith($startsWith) &&
                 $filename->endsWith($endsWith);

@@ -23,15 +23,14 @@ class RequestHandler
     /**
      * Create a new request handler instance.
      *
-     * @param array<int, MountPath> $mountPaths
+     * @param  array<int, MountPath>  $mountPaths
      */
     public function __construct(
         protected FolioMarkdown $manager,
         protected array $mountPaths,
         protected ?Closure $renderUsing = null,
         protected ?Closure $onViewMatch = null,
-    )
-    {
+    ) {
     }
 
     /**
@@ -39,11 +38,11 @@ class RequestHandler
      */
     public function __invoke(Request $request): mixed
     {
-        app()->extend(\Laravel\Folio\InlineMetadataInterceptor::class, fn($app) => new \Snelling\FolioMarkdown\InlineMetadataInterceptor());
+        app()->extend(\Laravel\Folio\InlineMetadataInterceptor::class, fn ($app) => new \Snelling\FolioMarkdown\InlineMetadataInterceptor());
         foreach ($this->mountPaths as $mountPath) {
-            $requestPath = '/' . ltrim($request->path(), '/');
+            $requestPath = '/'.ltrim($request->path(), '/');
 
-            $uri = '/' . ltrim(substr($requestPath, strlen($mountPath->baseUri)), '/');
+            $uri = '/'.ltrim(substr($requestPath, strlen($mountPath->baseUri)), '/');
 
             if ($matchedView = (new Router($mountPath, $this->manager->getSupportedExtensions()))->match($request, $uri)) {
                 break;
@@ -52,7 +51,7 @@ class RequestHandler
 
         // Pass the request to the next handler if no view was matched.
         if (! isset($matchedView)) {
-            app()->extend(\Laravel\Folio\InlineMetadataInterceptor::class, fn($app) => new \Laravel\Folio\InlineMetadataInterceptor());
+            app()->extend(\Laravel\Folio\InlineMetadataInterceptor::class, fn ($app) => new \Laravel\Folio\InlineMetadataInterceptor());
             /** @phpstan-ignore-next-line */
             return invade(app(FolioManager::class))->handler()($request);
         }
@@ -74,9 +73,9 @@ class RequestHandler
                     : $this->toResponse($matchedView);
 
                 $this->manager->terminateUsing(
-                    fn(Application $app) => $middleware->filter(fn($middleware) => is_string($middleware) && class_exists($middleware) && method_exists($middleware, 'terminate'))
-                        ->map(fn(string $middleware) => $app->make($middleware))
-                        ->each(fn(object $middleware) => $app->call([$middleware, 'terminate'], ['request' => $request, 'response' => $response]))
+                    fn (Application $app) => $middleware->filter(fn ($middleware) => is_string($middleware) && class_exists($middleware) && method_exists($middleware, 'terminate'))
+                        ->map(fn (string $middleware) => $app->make($middleware))
+                        ->each(fn (object $middleware) => $app->call([$middleware, 'terminate'], ['request' => $request, 'response' => $response]))
                 );
 
                 return $response;

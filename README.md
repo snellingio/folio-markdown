@@ -103,23 +103,8 @@ Folio Markdown supports a variety of features, including:
   Alternatively, to apply middleware to a group of pages, chain the `middleware` method after calling the `Folio::path`
   method.
 
-- **Additional Front Matter**: You can add any additional front matter to your page. For instance, you might add
-  a `title` key to the page's front matter. This will be passed as the `$title` variable to the view template. This is
-  applicable to all front matter keys.
-
-- **Nested Routes & Index Routes**: You can create a nested route by creating one or more directories within one of
-  Folio's directories. Similarly, by placing an `index.md` template within a Folio directory, any requests to the root
-  of that directory will be routed to that page.
-
-- **Route Parameters**: You can have segments of the incoming request's URL injected into your page so that you can
-  interact with them. For example, you may need to access the "ID" of the user whose profile is being displayed.
-
-- **Route Model Binding**: If a wildcard segment of your page template's filename corresponds one of your application's
-  Eloquent models, Folio will automatically take advantage of Laravel's route model binding capabilities and attempt to
-  inject the resolved model instance into your page.
-
-- **PHP Blocks**: If you want to write PHP code within your file, you must end it in a `.blade.md`. After which, you can
-  use the `@php` Blade directive.
+- **Front Matter**: You can add any additional front matter to your page to be passed as view data.
+  For instance, you might add a `title` key to the page's front matter, which will be passed as the `$title` variable to the view template.
 
 Please refer to the detailed guide below for a comprehensive understanding of each feature.
 

@@ -1,11 +1,9 @@
-# Add markdown routing to Folio
+# Markdown for Laravel Folio
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/snellingio/folio-markdown.svg?style=flat-square)](https://packagist.org/packages/snellingio/folio-markdown)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/snellingio/folio-markdown/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/snellingio/folio-markdown/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/snellingio/folio-markdown/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/snellingio/folio-markdown/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/snellingio/folio-markdown.svg?style=flat-square)](https://packagist.org/packages/snellingio/folio-markdown)
-
-# Folio Markdown for Laravel Folio
 
 Folio Markdown is an extension for the Laravel Folio page-based router that enables the creation of routes using `.md`
 and `.blade.md` files. This simplifies the process of generating routes in Laravel applications.

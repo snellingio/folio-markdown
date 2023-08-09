@@ -3,6 +3,12 @@ description: Ask for a new feature or enhancement
 title: "[Feature]: "
 labels: ["feature"]
 body:
+  - type: textarea
+    id: title
+    attributes:
+      label: Title
+    validations:
+      required: true
   - type: markdown
     attributes:
       value: |
